@@ -1,0 +1,83 @@
+import javax.swing.*;
+
+// Abstract class for shared attributes and methods
+abstract class Item {
+    private String name;
+    private double price;
+
+    public Item(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    // Abstract method to calculate total sales
+    public abstract double calculateSales();
+}
+
+// Concrete class for Phones
+class Phone extends Item {
+    private int quantitySold;
+
+    public Phone(String name, double price, int quantitySold) {
+        super(name, price);
+        this.quantitySold = quantitySold;
+    }
+
+    @Override
+    public double calculateSales() {
+        return getPrice() * quantitySold;
+    }
+}
+
+// Concrete class for Repair Services
+class RepairService extends Item {
+    private int hoursWorked;
+
+    public RepairService(String name, double pricePerHour, int hoursWorked) {
+        super(name, pricePerHour);
+        this.hoursWorked = hoursWorked;
+    }
+
+    @Override
+    public double calculateSales() {
+        return getPrice() * hoursWorked;
+    }
+}
+
+// Main Program using Swing
+public class DailySalesCalculator {
+    public static void main(String[] args) {
+        // Input for Phone Sales
+        String phoneName = JOptionPane.showInputDialog("Enter item name for phone:");
+        double phonePrice = Double.parseDouble(JOptionPane.showInputDialog("Enter price per phone:"));
+        int phoneQuantity = Integer.parseInt(JOptionPane.showInputDialog("Enter quantity sold:"));
+
+        Phone phone = new Phone(phoneName, phonePrice, phoneQuantity);
+
+        // Input for Repair Services
+        String repairName = JOptionPane.showInputDialog("Enter service name for repair:");
+        double repairPricePerHour = Double.parseDouble(JOptionPane.showInputDialog("Enter price per hour:"));
+        int hoursWorked = Integer.parseInt(JOptionPane.showInputDialog("Enter hours worked:"));
+
+        RepairService repairService = new RepairService(repairName, repairPricePerHour, hoursWorked);
+
+        // Calculate total sales
+        double phoneSales = phone.calculateSales();
+        double repairSales = repairService.calculateSales();
+
+        // Display Results
+        JOptionPane.showMessageDialog(null,
+                "Sales Summary:\n" +
+                        phoneName + " Sales: P" + phoneSales + "\n" +
+                        repairName + " Sales: P" + repairSales + "\n" +
+                        "Total Sales: P" + (phoneSales + repairSales));
+    }
+}
