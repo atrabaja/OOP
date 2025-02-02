@@ -1,0 +1,62 @@
+// Parent Class: Employee
+public class Employee {
+    protected int employeeID;
+    protected String name;
+    protected String position;
+
+    public Employee(int employeeID, String name, String position) {
+        this.employeeID = employeeID;
+        this.name = name;
+        this.position = position;
+    }
+
+    public String getBasicInfo() {
+        return "ID: " + employeeID + ", Name: " + name + ", Position: " + position;
+    }
+
+    public void updateDetails(String newPosition) {
+        this.position = newPosition;
+    }
+}
+
+// Child Class: PayrollEmployee
+public class PayrollEmployee extends Employee {
+    private double basicSalary;
+    private double deductions;
+    private double netPay;
+
+    public PayrollEmployee(int employeeID, String name, String position, double basicSalary) {
+        super(employeeID, name, position);
+        this.basicSalary = basicSalary;
+    }
+
+    public void calculateNetPay() {
+        this.netPay = basicSalary - deductions;
+    }
+
+    public void generatePaySlip() {
+        System.out.println("PaySlip: " + getBasicInfo() + ", Net Pay: " + netPay);
+    }
+}
+
+// Child Class: LeaveEmployee
+public class LeaveEmployee extends Employee {
+    private int sickLeaveBalance;
+    private int vacationLeaveBalance;
+
+    public LeaveEmployee(int employeeID, String name, String position, int sickLeave, int vacationLeave) {
+        super(employeeID, name, position);
+        this.sickLeaveBalance = sickLeave;
+        this.vacationLeaveBalance = vacationLeave;
+    }
+
+    public void requestLeave(String type, int days) {
+        if (type.equals("sick") && sickLeaveBalance >= days) {
+            sickLeaveBalance -= days;
+        } else if (type.equals("vacation") && vacationLeaveBalance >= days) {
+            vacationLeaveBalance -= days;
+        } else {
+            System.out.println("Insufficient leave balance.");
+        }
+    }
+}
